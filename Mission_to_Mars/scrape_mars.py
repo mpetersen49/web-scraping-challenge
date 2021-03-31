@@ -18,14 +18,18 @@ def scrape():
     # Parse HTML with Beautiful Soup
     soup = bs(html, 'html.parser')
     # Retrieve all elements that contain book information
-    articles = soup.find_all('div', class_='list_text')
+    article = soup.find('div', class_='list_text')
         
-    title = article.find('div', class_='content_title').text
-    text = article.find('div', class_='article_teaser_body').text
-
+    latest_news_title = article.find('div', class_='content_title').text
+    latest_news_text = article.find('div', class_='article_teaser_body').text
+    
+    browser.quit()
     #### end first scrape ####
 
     #### start second scrape ####
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
+
     base_url = "https://spaceimages-mars.com/"
     browser.visit(base_url)
 
@@ -40,6 +44,7 @@ def scrape():
     featured_image_url = f"{base_url}{image_url}"
     # print(featured_image_url)
 
+    browser.quit()
     #### end second scrape ####
 
     #### start third scrape ####
@@ -47,7 +52,7 @@ def scrape():
     tables = pd.read_html(facts_url)
     df = tables[0]
     df.columns = df.columns.get_level_values(0)
-    df
+    # df
 
 
     df.columns = df.iloc[0, :]
@@ -65,6 +70,9 @@ def scrape():
     #### end third scrape ####
 
     #### start fourth scrape ####
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
+
     hemisphere_url = "https://marshemispheres.com/"
     browser.visit(hemisphere_url)
 
@@ -93,19 +101,16 @@ def scrape():
         
         browser.links.find_by_partial_text('Back').click()
         
-        
     # hemisphere_img_urls
 
+    browser.quit()
     #### end fourth scrape ####
 
     # create final dictionary to load to mongoDB
-    mars_data = {'latest_news_title': title,
-                 'latest_news_text': text,
+    mars_data = {'latest_news_title': latest_news_title,
+                 'latest_news_text': latest_news_text,
                  'featured_img_url': featured_image_url,
                  'html_table': html_table,
-                 'hemisphere_img_urls': hemisphere_img_urls}
-
-    # quit browser
-    browser.quit()
+                 'hemisphere_img_urls': hemisphere_img_urls}    
 
     return mars_data
