@@ -5,10 +5,11 @@ import requests
 from webdriver_manager.chrome import ChromeDriverManager
 
 def scrape():
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
 
     ##### start first scrape ####
+    executable_path = {'executable_path': ChromeDriverManager().install()}
+    browser = Browser('chrome', **executable_path, headless=False)
+    
     url = "https://redplanetscience.com"
     browser.visit(url)
 
@@ -23,13 +24,9 @@ def scrape():
     latest_news_title = article.find('div', class_='content_title').text
     latest_news_text = article.find('div', class_='article_teaser_body').text
     
-    browser.quit()
     #### end first scrape ####
 
     #### start second scrape ####
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
-
     base_url = "https://spaceimages-mars.com/"
     browser.visit(base_url)
 
@@ -44,7 +41,6 @@ def scrape():
     featured_image_url = f"{base_url}{image_url}"
     # print(featured_image_url)
 
-    browser.quit()
     #### end second scrape ####
 
     #### start third scrape ####
@@ -63,16 +59,13 @@ def scrape():
     df.index.name = None
     # df
 
-    html_table = df.to_html()
+    html_table = df.to_html(classes="table table-striped")
     #html_table.replace('\n', '')
     # html_table
 
     #### end third scrape ####
 
     #### start fourth scrape ####
-    executable_path = {'executable_path': ChromeDriverManager().install()}
-    browser = Browser('chrome', **executable_path, headless=False)
-
     hemisphere_url = "https://marshemispheres.com/"
     browser.visit(hemisphere_url)
 
