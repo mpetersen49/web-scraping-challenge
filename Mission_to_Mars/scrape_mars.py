@@ -64,7 +64,7 @@ def scrape():
     # df
 
     html_table = df.to_html()
-    html_table.replace('\n', '')
+    #html_table.replace('\n', '')
     # html_table
 
     #### end third scrape ####
@@ -91,7 +91,7 @@ def scrape():
         
         div = soup.find('div', class_='wide-image-wrapper')
         
-        img_link = div.find('a')['href']
+        img_link = div.find('img', class_='wide-image')['src']
         img_url = f'{hemisphere_url}{img_link}'
         
         hemisphere_dict = {'title': title,
