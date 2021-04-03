@@ -1,16 +1,16 @@
 # web-scraping-challenge
 ## File Contents
 
-`**mission_to_mars.ipynb**`
+**`mission_to_mars.ipynb`**
 - jupyter notebook file to set scrape code
 
-`**scrape_mars.py**`
+**`scrape_mars.py`**
 - python script to run scrape code with button push on webpage
 
-`**app.py**`
+**`app.py`**
 - python script to run flask server
 
-`**index.html**`
+**`index.html`**
 - html file to create and format webpage
 
 ## Description of Usage
